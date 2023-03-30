@@ -1,0 +1,25 @@
+.displayed { 
+    clip-path: circle();
+    margin-left: -15px;  
+    height: 80px;
+    width: 80px;
+}
+
+.alineado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.marginBottom {
+    margin-bottom: 15px;
+}
+
+.fTitulo {
+    font-size: 15px; 
+    color: rgb(140, 141, 141);
+}
+
+.btnFill {
+    height: 50px;
+}

@@ -1,17 +1,138 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      Estudiantes
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="10">
+        <ion-item>
+          <ion-label position="floating">Nuevo estudiante</ion-label>
+          <ion-input type="text" (keydown.enter)="newStudent()" #input></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button class="btnFill" expand="block" fill="outline"  (click)="newStudent()">
+          <ion-icon slot="start" name="add"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list>
+          <ion-item-sliding *ngFor="let s of students;let i = index" #slidingItem>
+            <ion-item>
+              <ion-grid>
+                <ion-row class="alineado">
+                  <ion-col size-md="1">
+                    <div class="">
+                      <ion-img class="displayed" src={{s.photo}}></ion-img>
+                    </div>
+                  </ion-col>
+                  <ion-col size-md="1">
+                    <ion-row class="marginBottom">
+                      <ion-label class="fTitulo">
+                        No Control
+                      </ion-label>
+                    </ion-row>
+                    <ion-row>
+                      <div class="">
+                        {{s.controlNumber}}
+                      </div>
+                    </ion-row>
+                  </ion-col>
+                  <ion-col size-md="2">
+                    <ion-row class="marginBottom">
+                      <ion-label class="fTitulo">
+                        Nombre
+                      </ion-label>
+                    </ion-row>
+                    <ion-row>
+                      <div class="">
+                        {{s.name}}
+                      </div>
+                    </ion-row>
+                  </ion-col>
+                  <ion-col size-md="2">
+                    <ion-row class="marginBottom">
+                      <ion-label class="fTitulo">
+                        CURP
+                      </ion-label>
+                    </ion-row>
+                    <ion-row>
+                      <div class="">
+                        {{s.curp}}
+                      </div>
+                    </ion-row>
+                  </ion-col>
+                  <ion-col size-md="1">
+                    <ion-row class="marginBottom">
+                      <ion-label class="fTitulo">
+                        Edad
+                      </ion-label>
+                    </ion-row>
+                    <ion-row>
+                      <div class="">
+                        {{s.age}}
+                      </div>
+                    </ion-row>
+                  </ion-col>
+                  <ion-col size-md="1">
+                    <ion-row class="marginBottom">
+                      <ion-label class="fTitulo">
+                        NIP
+                      </ion-label>
+                    </ion-row>
+                    <ion-row>
+                      <div class="">
+                        {{s.nip}}
+                      </div>
+                    </ion-row>
+                  </ion-col>
+                  <ion-col size-md="2">
+                    <ion-row class="marginBottom">
+                      <ion-label class="fTitulo">
+                        Email
+                      </ion-label>
+                    </ion-row>
+                    <ion-row>
+                      <div class="">
+                        {{s.email}}
+                      </div>
+                    </ion-row>
+                  </ion-col>
+                  <ion-col size-md="1">
+                    <ion-row class="marginBottom">
+                      <ion-label class="fTitulo">
+                        Carrera
+                      </ion-label>
+                    </ion-row>
+                    <ion-row>
+                      <div class="">
+                        {{s.career}}
+                      </div>
+                    </ion-row>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-item>
+            <ion-item-options side="start"> 
+              <ion-item-option color="primary" (click)="updateStudent(0)">
+                <ion-icon slot="start" name="create-outline"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+            <ion-item-options side="end" (ionSwipe)="deleteStudent(0); slidingItem.close()" expandable>
+              <ion-item-option color="danger" expandable>
+                <ion-icon slot="start" name="trash"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
