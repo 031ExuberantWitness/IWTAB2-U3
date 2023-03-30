@@ -69,14 +69,7 @@ export class Tab1Page {
       if (dismissFunction) dismissFunction(respuesta);
     });
   }
-
-  public newStudent() {
-    if (this.studentService.getStudents.name === '' || this.studentService === null) {
-      this.showToast('El nombre de la tarea no puede estar vacío', 'danger');
-      return;
-    } 
-  }
-
+ 
   public async updateStudent(task: number) {
     const alert = await this.alertController.create({
       header: 'Editar tarea',

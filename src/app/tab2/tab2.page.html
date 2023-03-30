@@ -7,5 +7,96 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-   
+  <form [formGroup]="myForm">
+    <ion-grid>
+      <ion-item-divider>
+        <ion-label>
+          Información basica
+        </ion-label>
+      </ion-item-divider>
+      <ion-row>
+        <ion-col size="2">
+          <ion-item>
+            <ion-label position="floating">Numero de control</ion-label>
+            <ion-input type="number" formControlName="cn"></ion-input>
+          </ion-item>
+          <div>
+            <ng-container *mgFor="let val of validationMessages['cn']">
+              <div class="error-message" *ngIf="myForm.get('cn')?.hasError(val.type)&&myForm.get('cn')?.touched">
+                  {{val.message}}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+        <ion-col size="8">
+          <ion-item>
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input type="text" formControlName="name"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="2">
+          <ion-item>
+            <ion-label position="floating">Edad</ion-label>
+            <ion-input type="number" formControlName="age"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-item-divider>
+        <ion-label>
+          Información academica
+        </ion-label>
+      </ion-item-divider>
+      <ion-row>
+        <ion-col size="2">
+          <ion-item>
+            <ion-label position="floating">Carrera</ion-label>
+            <ion-select interface="popover" formControlName="career">
+              <ion-select-option value="ISC">ISC</ion-select-option>
+              <ion-select-option value="ARQ">ARQ</ion-select-option>
+              <ion-select-option value="ISC">IQ</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="8">
+          <ion-item>
+            <ion-label position="floating">Correo</ion-label>
+            <ion-input type="email" formControlName="email"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="2">
+          <ion-item>
+            <ion-label position="floating">NIP</ion-label>
+            <ion-input type="number" formControlName="nip"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-item-divider>
+        <ion-label>
+          Extras
+        </ion-label>
+      </ion-item-divider>
+      <ion-row> 
+        <ion-col size="8">
+          <ion-item>
+            <ion-label position="floating">CURP</ion-label>
+            <ion-input type="text" formControlName="curp"></ion-input>
+          </ion-item>
+        </ion-col> 
+        <ion-col size="2">
+          <ion-item>
+            <ion-label position="floating">Foto</ion-label>
+            <ion-input type="text" formControlName="photo"></ion-input>
+          </ion-item>
+        </ion-col> 
+        <ion-col size="2">
+          <ion-button class="btnFill" expand="block" fill="outline" (click)="newStudent()" [disabled]="!myForm.valid">
+            <ion-icon slot="start" name="add"></ion-icon> &nbsp;
+            <div>Guardar</div> 
+          </ion-button>
+        </ion-col> 
+      </ion-row>
+    </ion-grid>
+   </form>
 </ion-content>

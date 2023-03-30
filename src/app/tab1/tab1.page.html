@@ -7,20 +7,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-grid>
-    <ion-row>
-      <ion-col size="10">
-        <ion-item>
-          <ion-label position="floating">Nuevo estudiante</ion-label>
-          <ion-input type="text" (keydown.enter)="newStudent()" #input></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col size="2">
-        <ion-button class="btnFill" expand="block" fill="outline"  (click)="newStudent()">
-          <ion-icon slot="start" name="add"></ion-icon>
-        </ion-button>
-      </ion-col>
-    </ion-row>
+  <ion-grid> 
+    <ion-item-divider>
+      <ion-label>
+        Regitros
+      </ion-label>
+    </ion-item-divider>
     <ion-row>
       <ion-col>
         <ion-list>
