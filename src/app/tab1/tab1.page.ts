@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { AlertController, IonInput, ToastController } from '@ionic/angular';
+import { AlertController, IonInput, ToastController, IonSearchbar, IonSelect, ModalController } from '@ionic/angular';
 import { Student } from '../models/student';
 import { StudentService } from '../services/student.service';
 import { OverlayEventDetail } from '@ionic/core';
@@ -10,35 +10,75 @@ import { OverlayEventDetail } from '@ionic/core';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
-  public students: Student[];
-  @ViewChild('input') input!: IonInput;
-
+  @ViewChild('input') busqueda!: IonSearchbar;
+  @ViewChild('filtro') filtro!: IonSelect;
+  students: Student[] = [];
+  filteredStudents: Student[] = [];
   constructor(
     private studentService: StudentService,
     private alertController: AlertController,
-    private toastController: ToastController
-    ) {
+    private toastController: ToastController,
+    private modalController: ModalController
+  ) {
+    this.students = this.studentService.getStudents();
+    this.filteredStudents = this.students;
+  }
+
+  ionViewDidEnter() {
+    this.busqueda.setFocus();
     this.students = this.studentService.getStudents();
   }
 
-  public async deleteStudent(student: number) {
+  public deleteStudent(controlNumber: string) {
     this.confirmationDialog(
-      '¿Desea eliminar este estudainte?',
+      '¿Estás seguro de eliminar este estudiante?',
       () => {
-        this.studentService.deleteStudent(0); 
-      },
-      (respuesta: OverlayEventDetail) => {
-        if (respuesta.role === 'cancel') {
-          this.input.setFocus();
-          this.showToast('Cancelado', 'warning');
-        }
-
-        if (respuesta.role === 'confirm') {
-          this.input.setFocus();
-          this.showToast('Se eliminó', 'success');
-        }
+        this.students = this.studentService.deleteStudent(controlNumber);
+        this.filter(this.busqueda.value || '');
       }
     );
+  }
+
+  private filter(busqueda: string) {
+    if (!busqueda.trim()) {
+      this.filteredStudents = this.students;
+      return;
+    }
+    switch (this.filtro.value) {
+      case 'nombre':
+        this.filteredStudents = this.students.filter((student) =>
+          student.name.toLowerCase().includes(busqueda.toLowerCase())
+        );
+        break;
+      case 'control':
+        this.filteredStudents = this.students.filter((student) =>
+          student.controlNumber.toLowerCase().includes(busqueda.toLowerCase())
+        );
+        break;
+      case 'carrera':
+        this.filteredStudents = this.students.filter((student) =>
+          student.career.toLowerCase().includes(busqueda.toLowerCase())
+        );
+        break;
+    }
+  }
+
+  public filterStudents(event: Event) {
+    if (event instanceof CustomEvent) {
+      this.filter(event.detail.value);
+    }
+  }
+
+  private async presentToast(
+    message: string,
+    color: 'success' | 'danger' | 'warning'
+  ) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 500,
+      color,
+    });
+    toast.present();
   }
 
   private async confirmationDialog(
@@ -53,6 +93,9 @@ export class Tab1Page {
           text: 'Cancelar',
           role: 'cancel',
           cssClass: 'secondary',
+          handler: () => {
+            this.presentToast('Operación cancelada', 'warning');
+          },
         },
         {
           text: 'Confirmar',
@@ -60,6 +103,7 @@ export class Tab1Page {
           cssClass: 'primary',
           handler: () => {
             if (handler) handler();
+            this.presentToast('Operación realizada', 'success');
           },
         },
       ],
@@ -68,89 +112,5 @@ export class Tab1Page {
     alert.onDidDismiss().then((respuesta) => {
       if (dismissFunction) dismissFunction(respuesta);
     });
-  }
- 
-  public async updateStudent(task: number) {
-    const alert = await this.alertController.create({
-      header: 'Editar tarea',
-      inputs: [
-        {
-          name: 'name',
-          type: 'text',
-          value: StudentService.name,
-          placeholder: 'Nombre de la tarea',
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          cssClass: 'secondary',
-        },
-        {
-          text: 'Editar',
-          handler: async (data) => {
-            if (data.name === '' || data.name === null) {
-              this.showToast(
-                'El nombre de la tarea no puede estar vacío',
-                'danger'
-              );
-              return false;
-            }
-            if (data.name === this.studentService.getStudents) {
-              this.showToast(
-                'El nombre de la tarea no puede ser igual al anterior',
-                'danger'
-              );
-              return false;
-            }
-            this.confirmationDialog(
-              '¿Desea editar la tarea?',
-              undefined,
-              (respuesta: OverlayEventDetail) => {
-                if (respuesta.role !== 'confirm') return;
-                this.studentService.updateStudent(task, {
-                  controlNumber: "18401150",
-                  age: 20,
-                  career: "ISC",
-                  curp: "LOQP000730HTNPPNA",
-                  email: "dalopezqu@ittepic.edu.mx",
-                  name: "Daniel López Quintero",
-                  nip: 1212,
-                  photo: "https://picsum.photos/600/?random=1"
-                }); 
-                alert.dismiss(undefined, 'confirm');
-              }
-            );
-            return false;
-          },
-        },
-      ],
-    });
-    alert.present();
-    alert.onDidDismiss().then((respuesta) => {
-      console.log(respuesta);
-      if (respuesta.role === 'confirm') {
-        this.input.setFocus();
-        this.showToast('Tarea editada', 'success');
-      }
-
-      if (respuesta.role === 'cancel') {
-        this.input.setFocus();
-        this.showToast('Operación cancelada', 'warning');
-      }
-    });
-  }
-
-  private async showToast(
-    message: string,
-    color: 'success' | 'danger' | 'warning'
-  ) {
-    const toast = await this.toastController.create({
-      message,
-      color,
-      duration: 1000,
-    });
-    toast.present();
   }
 }

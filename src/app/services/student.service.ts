@@ -6,10 +6,9 @@ import { Student } from '../models/student';
 })
 
 export class StudentService {
-  private students: Student[];
-
+  private students: Student[] = [];
   constructor() {
-    this.students = [
+    this.students.push(
       {
         controlNumber: "18401150",
         age: 20,
@@ -30,52 +29,37 @@ export class StudentService {
         nip: 1212,
         photo: "https://picsum.photos/600/?random=2"
       }
-    ];
-  }
-
-  public getStudents(): Student[]{
-    return this.students;
-  }
-
-  public getStudentByControlNumber(cn: string): Student | undefined{
-    /*let student: Student = 
-    {
-      controlNumber: "",
-      age: 0,
-      career: "",
-      curp: "",
-      name: "",
-      email: "",
-      nip: 0,
-      photo: ""
-    }
-
-    this.students.forEach(element  => {
-      if(element.controlNumber ==cn){
-        student = element;
-      }
-    });
-    return student;*/
-
-    return this.students.find(
-      elem => {
-        return elem.controlNumber === cn;
-      }
     );
   }
 
-  public newStudent(student: Student): Student[]{
+  public getStudents(): Student[] {
+    return this.students;
+  }
+
+  public getStudentByControlNumber(controlNumber: string): Student | undefined {
+    console.log(this.students, controlNumber)
+    return this.students.find(
+      (student) => student.controlNumber === controlNumber
+    );
+  }
+
+  public newStudent(student: Student): Student[] {
     this.students.push(student);
     return this.students;
   }
 
-  public deleteStudent(pos: number): Student[]{
-    this.students.splice(pos, 1);
+  public updateStudent(student: Student): Student[] {
+    const pos = this.students.findIndex(
+      (std) => std.controlNumber === student.controlNumber
+    );
+    this.students[pos] = student;
     return this.students;
   }
 
-  public updateStudent(pos: number, student: Student): Student[]{
-    this.students[pos] = student;
+  public deleteStudent(controlNumber: string): Student[] {
+    this.students = this.students.filter(
+      (student) => student.controlNumber !== controlNumber
+    );
     return this.students;
   }
 }

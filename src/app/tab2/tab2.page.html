@@ -18,14 +18,17 @@
         <ion-col size="2">
           <ion-item>
             <ion-label position="floating">Numero de control</ion-label>
-            <ion-input type="number" formControlName="cn"></ion-input>
+            <ion-input type="string" formControlName="controlNumber"></ion-input>
           </ion-item>
-          <div>
-            <ng-container *mgFor="let val of validationMessages['cn']">
-              <div class="error-message" *ngIf="myForm.get('cn')?.hasError(val.type)&&myForm.get('cn')?.touched">
-                  {{val.message}}
-              </div>
-            </ng-container>
+          <ng-container *ngFor="let error of validation_messages.controlNumber">
+            <ion-item
+              class="error-message"
+              *ngIf="myForm.get('controlNumber')?.hasError(error.type) && myForm.get('controlNumber')?.touched"
+            >
+              <ion-label>{{ error.message }}</ion-label>
+            </ion-item>
+          </ng-container>
+          <div> 
           </div>
         </ion-col>
         <ion-col size="8">
@@ -33,12 +36,28 @@
             <ion-label position="floating">Nombre</ion-label>
             <ion-input type="text" formControlName="name"></ion-input>
           </ion-item>
+          <ng-container *ngFor="let error of validation_messages.name">
+            <ion-item
+              class="error-message"
+              *ngIf="myForm.get('name')?.hasError(error.type) && myForm.get('name')?.touched"
+            >
+              <ion-label>{{ error.message }}</ion-label>
+            </ion-item>
+          </ng-container>
         </ion-col>
         <ion-col size="2">
           <ion-item>
             <ion-label position="floating">Edad</ion-label>
             <ion-input type="number" formControlName="age"></ion-input>
           </ion-item>
+          <ng-container *ngFor="let error of validation_messages.age">
+            <ion-item
+              class="error-message"
+              *ngIf="myForm.get('age')?.hasError(error.type) && myForm.get('age')?.touched"
+            >
+              <ion-label>{{ error.message }}</ion-label>
+            </ion-item>
+          </ng-container>
         </ion-col>
       </ion-row>
 
@@ -57,18 +76,42 @@
               <ion-select-option value="ISC">IQ</ion-select-option>
             </ion-select>
           </ion-item>
+          <ng-container *ngFor="let error of validation_messages.career">
+            <ion-item
+              class="error-message"
+              *ngIf="myForm.get('career')?.hasError(error.type) && myForm.get('career')?.touched"
+            >
+              <ion-label>{{ error.message }}</ion-label>
+            </ion-item>
+          </ng-container>
         </ion-col>
         <ion-col size="8">
           <ion-item>
             <ion-label position="floating">Correo</ion-label>
             <ion-input type="email" formControlName="email"></ion-input>
           </ion-item>
+          <ng-container *ngFor="let error of validation_messages.email">
+            <ion-item
+              class="error-message"
+              *ngIf="myForm.get('email')?.hasError(error.type) && myForm.get('email')?.touched"
+            >
+              <ion-label>{{ error.message }}</ion-label>
+            </ion-item>
+          </ng-container>
         </ion-col>
         <ion-col size="2">
           <ion-item>
             <ion-label position="floating">NIP</ion-label>
             <ion-input type="number" formControlName="nip"></ion-input>
           </ion-item>
+          <ng-container *ngFor="let error of validation_messages.nip">
+            <ion-item
+              class="error-message"
+              *ngIf="myForm.get('nip')?.hasError(error.type) && myForm.get('nip')?.touched"
+            >
+              <ion-label>{{ error.message }}</ion-label>
+            </ion-item>
+          </ng-container>
         </ion-col>
       </ion-row>
 
@@ -83,12 +126,28 @@
             <ion-label position="floating">CURP</ion-label>
             <ion-input type="text" formControlName="curp"></ion-input>
           </ion-item>
+          <ng-container *ngFor="let error of validation_messages.curp">
+            <ion-item
+              class="error-message"
+              *ngIf="myForm.get('curp')?.hasError(error.type) && myForm.get('curp')?.touched"
+            >
+              <ion-label>{{ error.message }}</ion-label>
+            </ion-item>
+          </ng-container>
         </ion-col> 
         <ion-col size="2">
           <ion-item>
             <ion-label position="floating">Foto</ion-label>
             <ion-input type="text" formControlName="photo"></ion-input>
           </ion-item>
+          <ng-container *ngFor="let error of validation_messages.photo">
+            <ion-item
+              class="error-message"
+              *ngIf="myForm.get('photo')?.hasError(error.type) && myForm.get('photo')?.touched"
+            >
+              <ion-label>{{ error.message }}</ion-label>
+            </ion-item>
+          </ng-container>
         </ion-col> 
         <ion-col size="2">
           <ion-button class="btnFill" expand="block" fill="outline" (click)="newStudent()" [disabled]="!myForm.valid">
